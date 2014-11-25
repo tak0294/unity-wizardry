@@ -29,7 +29,9 @@ public class MainScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+		Vector3 pos = Camera.main.transform.position;
+		pos.y += 0.01f;
+		Camera.main.transform.position = pos;
 	}
 	
 }

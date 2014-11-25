@@ -34,8 +34,8 @@ public class DungeonView : MonoBehaviour {
 				 *******************************************************/ 
 				if(mapData[ii,jj] == DungeonModel.FLOOR_TYPE.WALL)
 				{
-					GameObject cell = CustomObject.createObject("cell"+ii+"_"+jj, "Ground", m_rootView);
-					CustomTransform.setPosition(cell, -(DungeonModel.MAP_W/2*32) + jj*32, 360 - ii*32, 0);
+					GameObject cell = CustomObject.createObject("cell"+ii+"_"+jj, "map_wall", m_rootView);
+					CustomTransform.setPosition(cell, -(DungeonModel.MAP_W/2) + jj, ii, 0);
 				}
 				/******************************************************
 				 * 床.
@@ -43,8 +43,8 @@ public class DungeonView : MonoBehaviour {
 				else if(mapData[ii, jj] != DungeonModel.FLOOR_TYPE.WALL && 
 					    mapData[ii, jj] != DungeonModel.FLOOR_TYPE.NONE)
 				{
-					GameObject cell = CustomObject.createObject("cell"+ii+"_"+jj, "Ground2", m_rootView);
-					CustomTransform.setPosition(cell, -(DungeonModel.MAP_W/2*32) + jj*32, 360 - ii*32, 32);
+					GameObject cell = CustomObject.createObject("cell"+ii+"_"+jj, "map_floor", m_rootView);
+					CustomTransform.setPosition(cell, -(DungeonModel.MAP_W/2) + jj, ii, 0);
 				}
 			}
 		}

@@ -31,7 +31,7 @@ public class DungeonController : MonoBehaviour {
 	public void BuildDungeon()
 	{
 		m_dungeonModel.Initialize();
-		//m_dungeonView.Initialize(m_dungeonModel);
+		m_dungeonView.Initialize(m_dungeonModel);
 	}
 	
 	public DungeonModel GetModel()
