@@ -8,7 +8,7 @@ public class DungeonView : MonoBehaviour {
 	// Initialize
 	void Awake() 
 	{
-		m_rootView = GameObject.Find("Main");
+		m_rootView = GameObject.Find("Main/Dungeon");
 	}
 	
 	

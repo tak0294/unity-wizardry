@@ -13,7 +13,6 @@ public class Actor : MonoBehaviour {
 	}
 	
 	protected GameObject m_sprite;
-	protected UISprite m_background;
 	protected int m_hp;
 	protected int m_mp;
 	protected int m_mapX;
@@ -28,12 +27,7 @@ public class Actor : MonoBehaviour {
 	protected int m_animationBlockSize = 2;
 	protected int m_animationElapsedFrame = 0;
 	
-	
-	public void SetNextMoveDirection(MOVE_DIRECTION direction)
-	{
-		this.m_nextMoveDirection = direction;
-	}
-	
+
 	public void SetMapX(int x)
 	{
 		this.m_mapX = x;
@@ -56,8 +50,8 @@ public class Actor : MonoBehaviour {
 	
 	protected void initialize()
 	{
-		this.m_sprite = CustomObject.getChild(this.gameObject, "Background");
-		this.m_background = this.m_sprite.GetComponent<UISprite>();
+		this.m_sprite = CustomObject.getChild(this.gameObject, "Sprite");
+		Debug.Log(this.m_sprite);
 	}
 	
 }

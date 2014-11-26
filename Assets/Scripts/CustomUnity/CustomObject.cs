@@ -10,7 +10,7 @@ public static class CustomObject{
 
 	// MainPanel直下にプレハブを配置
 	public static GameObject createObject(string name, string path){
-		GameObject MainPanel = GameObject.Find("View2DRoot/Camera/Anchor/MainPanel");
+		GameObject MainPanel = GameObject.Find("Main");
 		
 		return createObject(name, path, MainPanel);
 	}

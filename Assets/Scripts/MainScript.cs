@@ -24,14 +24,25 @@ public class MainScript : MonoBehaviour {
 	void Start () {
 		m_dungeonCtrl = gameObject.AddComponent<DungeonController>();
 		m_dungeonCtrl.BuildDungeon();
-
+		CustomObject.createObject("Player", "Player");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 pos = Camera.main.transform.position;
-		pos.y += 0.01f;
-		Camera.main.transform.position = pos;
+//		Vector3 pos = Camera.main.transform.position;
+//		if(Input.GetKey(KeyCode.LeftArrow)) {
+//			pos.x -= 0.1f;
+//		}
+//		if(Input.GetKey(KeyCode.RightArrow)) {
+//			pos.x += 0.1f;
+//		}
+//		if(Input.GetKey(KeyCode.UpArrow)) {
+//			pos.y += 0.1f;
+//		}
+//		if(Input.GetKey(KeyCode.DownArrow)) {
+//			pos.y -= 0.1f;
+//		}
+//		Camera.main.transform.position = pos;
 	}
 	
 }
