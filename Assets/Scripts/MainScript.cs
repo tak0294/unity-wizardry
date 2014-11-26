@@ -24,25 +24,38 @@ public class MainScript : MonoBehaviour {
 	void Start () {
 		m_dungeonCtrl = gameObject.AddComponent<DungeonController>();
 		m_dungeonCtrl.BuildDungeon();
-		CustomObject.createObject("Player", "Player");
+		m_player = CustomObject.createObject("Player", "Player").GetComponent<Player>();
+		m_player.initialize();
+		m_player.m_dungeonCtrl = m_dungeonCtrl;
+
+		/*************************************
+		 * Cameraの取得.
+		 **************************************/
+		GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+		m_mainCamera = camera.GetComponent<Camera>();
+		
+		
+		/**************************************
+		 * カメラの初期値.
+		 **************************************/ 
+		Room room = m_dungeonCtrl.GetModel().GetLeftTopRoom();
+		CustomTransform.setPosition(m_mainCamera.gameObject
+		                            , room.rect.x
+		                            , -room.rect.y
+		                            , -10);
+
+		m_player.GetSprite().transform.position = new Vector3(room.rect.x, -room.rect.y, 0);
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-//		Vector3 pos = Camera.main.transform.position;
-//		if(Input.GetKey(KeyCode.LeftArrow)) {
-//			pos.x -= 0.1f;
-//		}
-//		if(Input.GetKey(KeyCode.RightArrow)) {
-//			pos.x += 0.1f;
-//		}
-//		if(Input.GetKey(KeyCode.UpArrow)) {
-//			pos.y += 0.1f;
-//		}
-//		if(Input.GetKey(KeyCode.DownArrow)) {
-//			pos.y -= 0.1f;
-//		}
-//		Camera.main.transform.position = pos;
+		Vector3 pos = Camera.main.transform.position;
+		Vector3 sp_pos = m_player.GetSprite().transform.position;
+		pos.x += (sp_pos.x - pos.x) * 0.1f;
+		pos.y += (sp_pos.y - pos.y) * 0.1f;
+
+		Camera.main.transform.position = pos;
 	}
 	
 }

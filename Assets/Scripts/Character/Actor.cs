@@ -47,8 +47,12 @@ public class Actor : MonoBehaviour {
 	{
 		this.m_mapY += y;
 	}
+
+	public GameObject GetSprite() {
+		return this.m_sprite;
+	}
 	
-	protected void initialize()
+	public void initialize()
 	{
 		this.m_sprite = CustomObject.getChild(this.gameObject, "Sprite");
 		Debug.Log(this.m_sprite);
