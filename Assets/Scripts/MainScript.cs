@@ -43,8 +43,8 @@ public class MainScript : MonoBehaviour {
 		                            , room.rect.x
 		                            , -room.rect.y
 		                            , -10);
-
-		m_player.GetSprite().transform.position = new Vector3(room.rect.x, -room.rect.y, 0);
+		Debug.Log (room.rect.x +", " + room.rect.y);
+		m_player.GetSprite().transform.position = new Vector3(room.rect.x+1, -room.rect.y-1, 0);
 
 	}
 	
@@ -52,8 +52,8 @@ public class MainScript : MonoBehaviour {
 	void Update () {
 		Vector3 pos = Camera.main.transform.position;
 		Vector3 sp_pos = m_player.GetSprite().transform.position;
-		pos.x += (sp_pos.x - pos.x) * 0.1f;
-		pos.y += (sp_pos.y - pos.y) * 0.1f;
+		pos.x += (sp_pos.x - pos.x) * 0.07f;
+		pos.y += (sp_pos.y - pos.y) * 0.07f;
 
 		Camera.main.transform.position = pos;
 	}

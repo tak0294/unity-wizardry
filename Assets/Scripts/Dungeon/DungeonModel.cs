@@ -120,6 +120,14 @@ public class DungeonModel : MonoBehaviour {
 	{
 		return this.map[y,x];
 	}
+
+	public bool CanGoThru(int x, int y) {
+		if(this.GetMapAt(x, y) == FLOOR_TYPE.WALL) {
+			return false;
+		}
+
+		return true;
+	}
 	
 	public static int GetDrawPositionX(int x)
 	{
