@@ -172,6 +172,7 @@
      <Compile Include="Assets\Scripts\Dungeon\DungeonController.cs" />
      <Compile Include="Assets\Scripts\Dungeon\DungeonModel.cs" />
      <Compile Include="Assets\Scripts\Dungeon\DungeonView.cs" />
+     <Compile Include="Assets\Scripts\DynamicJoystick\DynamicStick.cs" />
      <Compile Include="Assets\Scripts\MainScript.cs" />
      <Compile Include="Assets\Scripts\SpriteButton.cs" />
      <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />
