@@ -15,15 +15,19 @@ public class Player : Actor {
 	void Update () {
 		Vector3 pos = this.m_sprite.transform.position;
 		if(Input.GetKey(KeyCode.RightArrow)) {
+			GetComponent<Animator>().Play("pright");
 			pos.x += 0.1f;
 		}
 		if(Input.GetKey(KeyCode.LeftArrow)) {
+			GetComponent<Animator>().Play("pleft");
 			pos.x -= 0.1f;
 		}
 		if(Input.GetKey(KeyCode.DownArrow)) {
+			GetComponent<Animator>().Play("pdown");
 			pos.y -= 0.1f;
 		}
 		if(Input.GetKey(KeyCode.UpArrow)) {
+			GetComponent<Animator>().Play("pup");
 			pos.y += 0.1f;
 		}
 

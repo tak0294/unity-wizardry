@@ -54,7 +54,7 @@ public class Actor : MonoBehaviour {
 	
 	public void initialize()
 	{
-		this.m_sprite = CustomObject.getChild(this.gameObject, "Sprite");
+		this.m_sprite = this.gameObject; //CustomObject.getChild(this.gameObject, "Sprite");
 		Debug.Log(this.m_sprite);
 	}
 	

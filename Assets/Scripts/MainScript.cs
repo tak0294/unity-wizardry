@@ -24,7 +24,7 @@ public class MainScript : MonoBehaviour {
 	void Start () {
 		m_dungeonCtrl = gameObject.AddComponent<DungeonController>();
 		m_dungeonCtrl.BuildDungeon();
-		m_player = CustomObject.createObject("Player", "Player").GetComponent<Player>();
+		m_player = CustomObject.createObject("Player", "PlayerChara").GetComponent<Player>();
 		m_player.initialize();
 		m_player.m_dungeonCtrl = m_dungeonCtrl;
 
