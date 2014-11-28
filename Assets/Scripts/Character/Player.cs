@@ -62,6 +62,13 @@ public class Player : Actor {
 			}
 		}
 
+		if (Input.anyKey == false) {
+
+			GetComponent<Animator> ().enabled = false;
+		}else{
+			GetComponent<Animator> ().enabled = true;
+		}
+
 		pos.x += vel.x;
 		pos.y += vel.y;
 
