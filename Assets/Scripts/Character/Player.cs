@@ -4,21 +4,18 @@ using System.Collections;
 public class Player : Actor {
 
 	public DungeonController m_dungeonCtrl;
-	private DynamicStick m_joystick;
 
 	// Use this for initialization
 	void Start () {
 		//this.initialize();
 		Debug.Log("player Start");
-		m_joystick = GameObject.Find("Joystick").GetComponent<DynamicStick>();
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		Vector3 pos 	= this.m_sprite.transform.position;
-		Vector3 vel     = Vector3.zero;
-		vel.x = m_joystick._JoyOffset.x;
-		vel.y = m_joystick._JoyOffset.y;
+		Vector3 vel = Vector3.zero;
 
 		if(Input.GetKey(KeyCode.RightArrow)) {
 			

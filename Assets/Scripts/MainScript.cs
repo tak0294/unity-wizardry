@@ -2,7 +2,9 @@
 using System.Collections;
 
 public class MainScript : MonoBehaviour {
-	
+
+	private DynamicStick m_joystick;
+
 	private Camera m_mainCamera;
 	private bool isMovingCamera = false;
 	
@@ -22,6 +24,8 @@ public class MainScript : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+		m_joystick = GameObject.Find("Joystick").GetComponent<DynamicStick>();
+
 		m_dungeonCtrl = gameObject.AddComponent<DungeonController>();
 		m_dungeonCtrl.BuildDungeon();
 		m_player = CustomObject.createObject("Player", "PlayerChara").GetComponent<Player>();
@@ -50,6 +54,10 @@ public class MainScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		Vector3 vel     = Vector3.zero;
+		vel.x = m_joystick._JoyOffset.x;
+		vel.y = m_joystick._JoyOffset.y;
+
 		Vector3 pos = Camera.main.transform.position;
 		Vector3 sp_pos = m_player.GetSprite().transform.position;
 		pos.x += (sp_pos.x - pos.x) * 0.07f;
