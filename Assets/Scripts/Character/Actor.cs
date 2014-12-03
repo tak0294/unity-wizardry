@@ -13,6 +13,7 @@ public class Actor : MonoBehaviour {
 	}
 	
 	protected GameObject m_sprite;
+	protected GameObject m_weapon;
 	protected int m_hp;
 	protected int m_mp;
 	protected int m_mapX;

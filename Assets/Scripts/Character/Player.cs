@@ -18,13 +18,11 @@ public class Player : Actor {
 		Vector3 vel = Vector3.zero;
 
 		if(Input.GetKey(KeyCode.RightArrow)) {
-			
 			vel.x = 0.1f;
 		}
 		if(Input.GetKey(KeyCode.LeftArrow)) {
 			vel.x = -0.1f;
 		}
-		
 		if(Input.GetKey(KeyCode.DownArrow)) {
 			vel.y = -0.1f;
 		}
