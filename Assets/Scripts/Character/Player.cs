@@ -4,6 +4,8 @@ using System.Collections;
 public class Player : Actor {
 
 	public DungeonController m_dungeonCtrl;
+	private Vector3 m_vel = Vector3.zero;
+	private int m_walked = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -15,41 +17,62 @@ public class Player : Actor {
 	// Update is called once per frame
 	void Update () {
 		Vector3 pos 	= this.m_sprite.transform.position;
-		Vector3 vel = Vector3.zero;
+
 
 		if(Input.GetKey(KeyCode.RightArrow)) {
-			vel.x = 0.1f;
+			m_vel.x = 0.1f;
 		}
 		if(Input.GetKey(KeyCode.LeftArrow)) {
-			vel.x = -0.1f;
+			m_vel.x = -0.1f;
 		}
 		if(Input.GetKey(KeyCode.DownArrow)) {
-			vel.y = -0.1f;
+			m_vel.y = -0.1f;
 		}
 		if(Input.GetKey(KeyCode.UpArrow)) {
-			vel.y = 0.1f;
+			m_vel.y = 0.1f;
+		}
+
+		if(m_walked  > 10) {
+			m_vel.x = 0;
+			m_vel.y = 0;
+			m_walked = 0;
+			int rnd = Random.Range(0,10);
+		
+			if(rnd == 0) {
+				m_vel.y = 0.1f;
+			}else if(rnd == 2){
+				m_vel.y = -0.1f;
+			}else if(rnd == 4) {
+				m_vel.x = 0.1f;
+			}else if(rnd == 6) {
+				m_vel.x = -0.1f;
+			}
 		}
 		
 
-		vel.Normalize();
-		vel *= 0.1f;
+		m_vel.Normalize();
+		m_vel *= 0.1f;
 
-		if(this.m_dungeonCtrl.GetModel().CanGoThru(Mathf.RoundToInt(pos.x + vel.x), Mathf.RoundToInt(pos.y*-1)) == false) {
-			vel.x = 0f;
+		if(this.m_dungeonCtrl.GetModel().CanGoThru(Mathf.RoundToInt(pos.x + m_vel.x), Mathf.RoundToInt(pos.y*-1)) == false) {
+			m_vel.x = 0f;
 		}
-		if(this.m_dungeonCtrl.GetModel().CanGoThru(Mathf.RoundToInt(pos.x), Mathf.RoundToInt((pos.y + vel.y)*-1)) == false) {
-			vel.y = 0f;
+		if(this.m_dungeonCtrl.GetModel().CanGoThru(Mathf.RoundToInt(pos.x), Mathf.RoundToInt((pos.y + m_vel.y)*-1)) == false) {
+			m_vel.y = 0f;
 		}
 
-		if(vel.y != 0f || vel.x != 0f) {
-			if(vel.y == 0f) {
-				if(vel.x > 0f){
+
+		m_walked++;
+		if(m_vel.y != 0f || m_vel.x != 0f) {
+
+
+			if(m_vel.y == 0f) {
+				if(m_vel.x > 0f){
 					GetComponent<Animator>().Play("pright");
 				}else{
 					GetComponent<Animator>().Play("pleft");
 				}
 			}else{
-				if(vel.y > 0f){
+				if(m_vel.y > 0f){
 					GetComponent<Animator>().Play("pup");
 				}else{
 					GetComponent<Animator>().Play("pdown");
@@ -57,15 +80,15 @@ public class Player : Actor {
 			}
 		}
 
-		if (Input.anyKey == false) {
+		if (m_vel.y == 0f && m_vel.x == 0f) {
 
 			GetComponent<Animator> ().enabled = false;
 		}else{
 			GetComponent<Animator> ().enabled = true;
 		}
 
-		pos.x += vel.x;
-		pos.y += vel.y;
+		pos.x += m_vel.x;
+		pos.y += m_vel.y;
 
 		this.m_sprite.transform.position = pos;
 	}
