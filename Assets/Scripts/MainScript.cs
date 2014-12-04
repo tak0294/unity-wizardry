@@ -64,6 +64,17 @@ public class MainScript : MonoBehaviour {
 		pos.y += (sp_pos.y - pos.y) * 0.07f;
 
 		Camera.main.transform.position = pos;
+
+		//Mouse Click
+		if(Input.GetMouseButton(0)) {
+			Vector3    aTapPoint   = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			Collider2D aCollider2d = Physics2D.OverlapPoint(aTapPoint);
+			
+			if (aCollider2d) {
+				GameObject obj = aCollider2d.transform.gameObject;
+				this.m_player.setDestination(obj.transform.position.x, obj.transform.position.y);
+			}
+		}
 	}
 	
 }

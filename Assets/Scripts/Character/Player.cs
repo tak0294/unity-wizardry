@@ -5,6 +5,7 @@ public class Player : Actor {
 
 	public DungeonController m_dungeonCtrl;
 	private Vector3 m_vel = Vector3.zero;
+	private Vector3 m_dest = Vector3.zero;
 	private int m_walked = 0;
 
 	// Use this for initialization
@@ -32,7 +33,8 @@ public class Player : Actor {
 			m_vel.y = 0.1f;
 		}
 
-		if(m_walked  > 10) {
+		//if(m_walked  > 10) {
+		if(false) {
 			m_vel.x = 0;
 			m_vel.y = 0;
 			m_walked = 0;
@@ -48,7 +50,13 @@ public class Player : Actor {
 				m_vel.x = -0.1f;
 			}
 		}
-		
+
+		m_vel.x = m_dest.x - pos.x;
+		m_vel.y = m_dest.y - pos.y;
+
+		if(Mathf.Abs(m_vel.x) < .1f && Mathf.Abs(m_vel.y) < .1f) {
+			m_vel = Vector3.zero;
+		}
 
 		m_vel.Normalize();
 		m_vel *= 0.1f;
@@ -65,7 +73,7 @@ public class Player : Actor {
 		if(m_vel.y != 0f || m_vel.x != 0f) {
 
 
-			if(m_vel.y == 0f) {
+			if(Mathf.Abs(m_vel.y) < Mathf.Abs(m_vel.x)) {
 				if(m_vel.x > 0f){
 					GetComponent<Animator>().Play("pright");
 				}else{
@@ -91,5 +99,10 @@ public class Player : Actor {
 		pos.y += m_vel.y;
 
 		this.m_sprite.transform.position = pos;
+	}
+
+	public void setDestination(float x, float y) {
+		this.m_dest.x = x;
+		this.m_dest.y = y;
 	}
 }
