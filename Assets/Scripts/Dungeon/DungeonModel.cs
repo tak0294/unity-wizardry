@@ -121,6 +121,10 @@ public class DungeonModel : MonoBehaviour {
 		return this.map[y,x];
 	}
 
+	public bool CanGoThru(float x, float y) {
+		return this.CanGoThru(Mathf.FloorToInt(x), Mathf.FloorToInt(y));
+	}
+
 	public bool CanGoThru(int x, int y) {
 		if(this.GetMapAt(x, y) == FLOOR_TYPE.WALL) {
 			return false;

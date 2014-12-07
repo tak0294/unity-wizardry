@@ -21,13 +21,15 @@ public class MainScript : MonoBehaviour {
 	
 	private DungeonController m_dungeonCtrl;
 	private Player m_player;
-	
+	private AStarRouteSearcher m_playerRouter = new AStarRouteSearcher();
+
 	// Use this for initialization
 	void Start () {
 		m_joystick = GameObject.Find("Joystick").GetComponent<DynamicStick>();
 
 		m_dungeonCtrl = gameObject.AddComponent<DungeonController>();
 		m_dungeonCtrl.BuildDungeon();
+		m_playerRouter.setDungeonController(m_dungeonCtrl);
 		m_player = CustomObject.createObject("Player", "PlayerChara").GetComponent<Player>();
 		m_player.initialize();
 		m_player.m_dungeonCtrl = m_dungeonCtrl;
@@ -66,12 +68,15 @@ public class MainScript : MonoBehaviour {
 		Camera.main.transform.position = pos;
 
 		//Mouse Click
-		if(Input.GetMouseButton(0)) {
+		if(Input.GetMouseButtonDown(0)) {
+			m_playerRouter.initialize();
+
 			Vector3    aTapPoint   = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			Collider2D aCollider2d = Physics2D.OverlapPoint(aTapPoint);
 			
 			if (aCollider2d) {
 				GameObject obj = aCollider2d.transform.gameObject;
+				m_playerRouter.findPath(m_player.GetSprite().transform.position, obj.transform.position);
 				this.m_player.setDestination(obj.transform.position.x, obj.transform.position.y);
 			}
 		}
