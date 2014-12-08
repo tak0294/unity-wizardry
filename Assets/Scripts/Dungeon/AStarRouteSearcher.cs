@@ -48,6 +48,30 @@ public class AStarRouteSearcher {
 		return null;
 	}
 
+	private bool searchRoute() {
+		float score = 999999;
+		int index = -1;
+		AStarPoint p = null;
+		for(int ii=0;ii<this.m_openList.size;ii++) {
+			if(score > this.m_openList[ii].GetScore()) {
+				score = this.m_openList[ii].GetScore();
+				index = ii;
+				p = this.m_openList[ii];
+				this.m_openList.RemoveAt(ii);
+			}
+		}
+
+		if(p == null) {
+			return false;
+		}
+
+		//pを確定ノードとする.
+		this.m_closedList.Add (p.getPos ());
+
+		Debug.Log ("search_index = " + index);
+		return true;
+	}
+
 	public void findPath(Vector3 pos, Vector3 dest) {
 		m_startPoint.x = Mathf.CeilToInt(pos.x);
 		m_startPoint.y = Mathf.CeilToInt(pos.y * -1);
@@ -61,6 +85,8 @@ public class AStarRouteSearcher {
 		p.CalcHs(m_goalPoint);
 		ClosePoint(p);
 
+		//探索開始.
+		searchRoute ();
 
 		//Debug.Log("pos:" + m_startPoint);
 		//Debug.Log("dest:" + m_goalPoint);
