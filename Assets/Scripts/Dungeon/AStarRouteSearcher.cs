@@ -62,7 +62,8 @@ public class AStarRouteSearcher {
 
 	private bool isClosedPoint(Vector2 p) {
 		for(int ii=0;ii<m_closedList.size;ii++) {
-			if(p.Equals(m_closedList[ii])) {
+			//if(p.Equals(m_closedList[ii])) {
+			if(p.x == m_closedList[ii].x && p.y == m_closedList[ii].y) {
 				return true;
 			}
 		}
@@ -98,10 +99,10 @@ public class AStarRouteSearcher {
 
 		if(p.getPos().x == m_goalPoint.x && p.getPos().y == m_goalPoint.y) {
 			Debug.Log("GOAL!");
-			AStarPoint path = p.getParent();
 			m_path.Add(p.getPos());
+			AStarPoint path = p.getParent();
 			int cnt = 0;
-			while(path != null && cnt < 100) {
+			while(path != null) {
 				//Debug.Log(path.getPos().x + ", " + path.getPos().y);
 				m_path.Add(path.getPos());
 				path = path.getParent();
