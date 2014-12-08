@@ -6,6 +6,7 @@ public class AStarRouteSearcher {
 	private DungeonController m_dungeonCtrl;
 	private BetterList<AStarPoint> m_openList = new BetterList<AStarPoint>();
 	private BetterList<Vector2> m_closedList  = new BetterList<Vector2>();
+	private BetterList<Vector2> m_path		  = new BetterList<Vector2>();
 
 	private int[] dx = {0, 1, 0, -1};   // X方向移動用配列
 	private int[] dy = {1, 0, -1, 0};   // Y方向移動用配列
@@ -13,17 +14,24 @@ public class AStarRouteSearcher {
 	private Vector2 m_startPoint = Vector2.zero;
 	private Vector2 m_goalPoint  = Vector2.zero;
 
+	private int m_searchedCount = 0;
+
 	public void setDungeonController(DungeonController dController) {
 		this.m_dungeonCtrl = dController;
 	}
 
-	public void initialize() {
-		this.m_openList = new BetterList<AStarPoint>();
-		this.m_closedList = new BetterList<Vector2>();
+	public BetterList<Vector2> getPath() {
+		return this.m_path;
 	}
 
-	private float hs(Vector2 node1, Vector2 node2)
-	{
+	public void initialize() {
+		this.m_openList   = new BetterList<AStarPoint>();
+		this.m_closedList = new BetterList<Vector2>();
+		this.m_path		  = new BetterList<Vector2>();
+		this.m_searchedCount = 0;
+	}
+
+	private float hs(Vector2 node1, Vector2 node2) {
 		return Mathf.Abs(node2.x - node1.x) + Mathf.Abs(node2.y - node1.y);
 	}
 
@@ -35,20 +43,40 @@ public class AStarRouteSearcher {
 		//４方向を開けておく.
 		for(int ii=0;ii<4;ii++) {
 			if(this.m_dungeonCtrl.GetModel().CanGoThru(this.m_startPoint.x + dx[ii], this.m_startPoint.y + dy[ii])) {
+				
+				Vector2 tmp_v = new Vector2(p.getPos().x + dx[ii], p.getPos().y + dy[ii]);
+				if(this.isClosedPoint(tmp_v)) {
+					//Debug.Log("CLOSED!");
+					continue;
+				}
 				AStarPoint tmp_p = new AStarPoint();
 				tmp_p.setCost(currentCost + 1);
 				tmp_p.setPos(p.getPos().x + dx[ii], p.getPos().y + dy[ii]);
 				tmp_p.CalcHs(m_goalPoint);
+				tmp_p.setParent(p);
+				
 				m_openList.Add(tmp_p);
 			}
 		}
 	}
 
-	private AStarPoint GetPointWillBeClose() {
-		return null;
+	private bool isClosedPoint(Vector2 p) {
+		for(int ii=0;ii<m_closedList.size;ii++) {
+			if(p.Equals(m_closedList[ii])) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private bool searchRoute() {
+
+		if(this.m_searchedCount > 1000) {
+			Debug.Log("too much search!");
+			return false;
+		}
+		this.m_searchedCount++;
+
 		float score = 999999;
 		int index = -1;
 		AStarPoint p = null;
@@ -68,16 +96,33 @@ public class AStarRouteSearcher {
 		//pを確定ノードとする.
 		this.m_closedList.Add (p.getPos ());
 
-		Debug.Log ("search_index = " + index);
-		return true;
+		if(p.getPos().x == m_goalPoint.x && p.getPos().y == m_goalPoint.y) {
+			Debug.Log("GOAL!");
+			AStarPoint path = p.getParent();
+			m_path.Add(p.getPos());
+			int cnt = 0;
+			while(path != null && cnt < 100) {
+				//Debug.Log(path.getPos().x + ", " + path.getPos().y);
+				m_path.Add(path.getPos());
+				path = path.getParent();
+				cnt++;
+			}
+			return false;
+		}
+
+		ClosePoint(p);
+
+		//Debug.Log ("search_index = " + index);
+		return this.searchRoute();
 	}
 
 	public void findPath(Vector3 pos, Vector3 dest) {
-		m_startPoint.x = Mathf.CeilToInt(pos.x);
-		m_startPoint.y = Mathf.CeilToInt(pos.y * -1);
-		m_goalPoint.x  = Mathf.CeilToInt(dest.x);
-		m_goalPoint.y  = Mathf.CeilToInt(dest.y * -1);
+		m_startPoint.x = Mathf.RoundToInt(pos.x);
+		m_startPoint.y = Mathf.RoundToInt(pos.y * -1);
+		m_goalPoint.x  = Mathf.RoundToInt(dest.x);
+		m_goalPoint.y  = Mathf.RoundToInt(dest.y * -1);
 
+		Debug.Log("GOAL=" + m_goalPoint.x + "," +m_goalPoint.y);
 		//スタート地点のNodeを作成.
 		AStarPoint p = new AStarPoint();
 		p.setCost(0);

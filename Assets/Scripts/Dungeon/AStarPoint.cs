@@ -43,6 +43,10 @@ public class AStarPoint {
 		this.m_parent = parent;
 	}
 
+	public AStarPoint getParent() {
+		return this.m_parent;
+	}
+
 	public void SetClosed() {
 		this.m_status = _STATUS.CLOSED;
 	}

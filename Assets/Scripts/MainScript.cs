@@ -77,7 +77,13 @@ public class MainScript : MonoBehaviour {
 			if (aCollider2d) {
 				GameObject obj = aCollider2d.transform.gameObject;
 				m_playerRouter.findPath(m_player.GetSprite().transform.position, obj.transform.position);
-				this.m_player.setDestination(obj.transform.position.x, obj.transform.position.y);
+				//this.m_player.setDestination(obj.transform.position.x, obj.transform.position.y);
+				BetterList<Vector2> path = m_playerRouter.getPath();
+				Debug.Log(m_player.GetSprite().transform.position);
+				Debug.Log(obj.transform.position.x + "," + obj.transform.position.y);
+				//Debug.Log(path[0].x + "," + path[0].y);
+				//this.m_player.setDestination(path[0].x, path[0].y*-1);
+				this.m_player.setPath(path);
 			}
 		}
 	}

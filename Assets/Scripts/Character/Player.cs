@@ -7,6 +7,8 @@ public class Player : Actor {
 	private Vector3 m_vel = Vector3.zero;
 	private Vector3 m_dest = Vector3.zero;
 	private int m_walked = 0;
+	private BetterList<Vector2> m_path;
+	private bool m_isWalking = false;
 
 	// Use this for initialization
 	void Start () {
@@ -89,7 +91,9 @@ public class Player : Actor {
 		}
 
 		if (m_vel.y == 0f && m_vel.x == 0f) {
-
+			if(this.m_isWalking) {
+				this.setNextDestination();
+			}
 			GetComponent<Animator> ().enabled = false;
 		}else{
 			GetComponent<Animator> ().enabled = true;
@@ -104,5 +108,19 @@ public class Player : Actor {
 	public void setDestination(float x, float y) {
 		this.m_dest.x = x;
 		this.m_dest.y = y;
+	}
+
+	public void setNextDestination() {
+		Vector2 dest = this.m_path.Pop();
+		this.setDestination(dest.x, dest.y*-1);
+		if(this.m_path.size == 0) {
+			this.m_isWalking = false;
+		}
+	}
+
+	public void setPath(BetterList<Vector2> path) {
+		this.m_path = path;
+		this.m_isWalking = true;
+		this.setNextDestination();
 	}
 }
