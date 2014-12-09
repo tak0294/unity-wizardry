@@ -3,6 +3,8 @@ using System.Collections;
 
 public class MainScript : MonoBehaviour {
 
+	public float orthoZoomSpeed = 0.05f;        // The rate of change of the orthographic size in orthographic mode.
+
 	private DynamicStick m_joystick;
 
 	private Camera m_mainCamera;
@@ -25,7 +27,7 @@ public class MainScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		m_joystick = GameObject.Find("Joystick").GetComponent<DynamicStick>();
+		//m_joystick = GameObject.Find("Joystick").GetComponent<DynamicStick>();
 
 		m_dungeonCtrl = gameObject.AddComponent<DungeonController>();
 		m_dungeonCtrl.BuildDungeon();
@@ -57,8 +59,8 @@ public class MainScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		Vector3 vel     = Vector3.zero;
-		vel.x = m_joystick._JoyOffset.x;
-		vel.y = m_joystick._JoyOffset.y;
+		//vel.x = m_joystick._JoyOffset.x;
+		//vel.y = m_joystick._JoyOffset.y;
 
 		Vector3 pos = Camera.main.transform.position;
 		Vector3 sp_pos = m_player.GetSprite().transform.position;
@@ -68,10 +70,15 @@ public class MainScript : MonoBehaviour {
 		Camera.main.transform.position = pos;
 
 		//Mouse Click
-		if(Input.GetMouseButtonDown(0)) {
+		if(Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)) {
 			m_playerRouter.initialize();
 
-			Vector3    aTapPoint   = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			Vector3    aTapPoint;
+			if(Input.GetMouseButtonDown(0)) {
+				aTapPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			}else{
+				aTapPoint = Camera.main.ScreenToWorldPoint(new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 0));
+			}
 			Collider2D aCollider2d = Physics2D.OverlapPoint(aTapPoint);
 			
 			if (aCollider2d) {
@@ -79,12 +86,42 @@ public class MainScript : MonoBehaviour {
 				m_playerRouter.findPath(m_player.GetSprite().transform.position, obj.transform.position);
 				//this.m_player.setDestination(obj.transform.position.x, obj.transform.position.y);
 				BetterList<Vector2> path = m_playerRouter.getPath();
-				Debug.Log(m_player.GetSprite().transform.position);
-				Debug.Log(obj.transform.position.x + "," + obj.transform.position.y);
+				//Debug.Log(m_player.GetSprite().transform.position);
+				//Debug.Log(obj.transform.position.x + "," + obj.transform.position.y);
 				//Debug.Log(path[0].x + "," + path[0].y);
 				//this.m_player.setDestination(path[0].x, path[0].y*-1);
 				this.m_player.setPath(path);
 			}
+		}
+
+		// If there are two touches on the device...
+		if (Input.touchCount == 2)
+		{
+			// Store both touches.
+			Touch touchZero = Input.GetTouch(0);
+			Touch touchOne = Input.GetTouch(1);
+			
+			// Find the position in the previous frame of each touch.
+			Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+			Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+			
+			// Find the magnitude of the vector (the distance) between the touches in each frame.
+			float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+			float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+			
+			// Find the difference in the distances between each frame.
+			float deltaMagnitudeDiff = (prevTouchDeltaMag - touchDeltaMag) * 0.5f;
+			
+			// If the camera is orthographic...
+			if (Camera.main.isOrthoGraphic)
+			{
+				// ... change the orthographic size based on the change in distance between the touches.
+				Camera.main.orthographicSize += deltaMagnitudeDiff * orthoZoomSpeed;
+				
+				// Make sure the orthographic size never drops below zero.
+				Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize, 0.1f);
+			}
+
 		}
 	}
 	

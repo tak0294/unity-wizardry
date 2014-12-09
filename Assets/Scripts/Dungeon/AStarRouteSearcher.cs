@@ -42,7 +42,7 @@ public class AStarRouteSearcher {
 		float currentCost = p.getCost();
 		//４方向を開けておく.
 		for(int ii=0;ii<8;ii++) {
-			if(this.m_dungeonCtrl.GetModel().CanGoThru(this.m_startPoint.x + dx[ii], this.m_startPoint.y + dy[ii])) {
+			if(this.m_dungeonCtrl.GetModel().CanGoThru(p.getPos().x + dx[ii], p.getPos().y + dy[ii])) {
 				
 				Vector2 tmp_v = new Vector2(p.getPos().x + dx[ii], p.getPos().y + dy[ii]);
 				if(this.isClosedPoint(tmp_v)) {
@@ -86,7 +86,6 @@ public class AStarRouteSearcher {
 				score = this.m_openList[ii].GetScore();
 				index = ii;
 				p = this.m_openList[ii];
-				this.m_openList.RemoveAt(ii);
 			}
 		}
 
@@ -95,6 +94,7 @@ public class AStarRouteSearcher {
 		}
 
 		//pを確定ノードとする.
+		this.m_openList.RemoveAt (index);
 		this.m_closedList.Add (p.getPos ());
 
 		if(p.getPos().x == m_goalPoint.x && p.getPos().y == m_goalPoint.y) {
@@ -103,7 +103,7 @@ public class AStarRouteSearcher {
 			AStarPoint path = p.getParent();
 			int cnt = 0;
 			while(path != null) {
-				//Debug.Log(path.getPos().x + ", " + path.getPos().y);
+				Debug.Log(path.getPos().x + ", " + path.getPos().y);
 				m_path.Add(path.getPos());
 				path = path.getParent();
 				cnt++;
@@ -123,7 +123,7 @@ public class AStarRouteSearcher {
 		m_goalPoint.x  = Mathf.RoundToInt(dest.x);
 		m_goalPoint.y  = Mathf.RoundToInt(dest.y * -1);
 
-		Debug.Log("GOAL=" + m_goalPoint.x + "," +m_goalPoint.y);
+		//Debug.Log("GOAL=" + m_goalPoint.x + "," +m_goalPoint.y);
 		//スタート地点のNodeを作成.
 		AStarPoint p = new AStarPoint();
 		p.setCost(0);

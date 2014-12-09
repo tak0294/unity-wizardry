@@ -122,5 +122,13 @@ public class Player : Actor {
 		this.m_path = path;
 		this.m_isWalking = true;
 		this.setNextDestination();
+		GameObject obj;
+		for(int ii=0;ii<path.size;ii++) {
+			int x = Mathf.FloorToInt (path [ii].x);
+			int y = Mathf.FloorToInt (path [ii].y);
+			obj = GameObject.Find ("cell" + y.ToString () + "_" + x.ToString ());
+			obj.renderer.material.color = new Color (0, 0, 0, 0.1f);
+		}
+
 	}
 }
