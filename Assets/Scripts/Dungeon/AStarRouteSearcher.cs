@@ -8,8 +8,8 @@ public class AStarRouteSearcher {
 	private BetterList<Vector2> m_closedList  = new BetterList<Vector2>();
 	private BetterList<Vector2> m_path		  = new BetterList<Vector2>();
 
-	private int[] dx = {0, 1, 0, -1, 1,1,-1,-1};   // X方向移動用配列
-	private int[] dy = {1, 0, -1, 0,-1,1, 1,-1};   // Y方向移動用配列
+	private int[] dx = {0, 1, 0, -1/*, 1,1,-1,-1*/};   // X方向移動用配列
+	private int[] dy = {1, 0, -1, 0/*,-1,1, 1,-1*/};   // Y方向移動用配列
 
 	private Vector2 m_startPoint = Vector2.zero;
 	private Vector2 m_goalPoint  = Vector2.zero;
@@ -41,7 +41,7 @@ public class AStarRouteSearcher {
 		this.m_closedList.Add(p.getPos());
 		float currentCost = p.getCost();
 		//４方向を開けておく.
-		for(int ii=0;ii<8;ii++) {
+		for(int ii=0;ii<4;ii++) {
 			if(this.m_dungeonCtrl.GetModel().CanGoThru(p.getPos().x + dx[ii], p.getPos().y + dy[ii])) {
 				
 				Vector2 tmp_v = new Vector2(p.getPos().x + dx[ii], p.getPos().y + dy[ii]);
@@ -103,7 +103,7 @@ public class AStarRouteSearcher {
 			AStarPoint path = p.getParent();
 			int cnt = 0;
 			while(path != null) {
-				Debug.Log(path.getPos().x + ", " + path.getPos().y);
+				//Debug.Log(path.getPos().x + ", " + path.getPos().y);
 				m_path.Add(path.getPos());
 				path = path.getParent();
 				cnt++;

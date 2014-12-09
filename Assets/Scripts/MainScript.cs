@@ -123,6 +123,17 @@ public class MainScript : MonoBehaviour {
 			}
 
 		}
+
+		GameObject wallObj;
+		for(int ii=0;ii<this.m_dungeonCtrl.GetView().m_floorList.size;ii++) {
+			wallObj = this.m_dungeonCtrl.GetView().m_floorList[ii];
+			float distance = Mathf.Abs(m_player.GetSprite().transform.position.x - wallObj.transform.position.x) + Mathf.Abs(m_player.GetSprite().transform.position.y - wallObj.transform.position.y);
+			float alpha = 0.4f;
+			if(distance < 3)	alpha = 0.6f;
+			if(distance < 2)	alpha = 1.0f;
+
+			wallObj.renderer.material.color = new Color (1, 1, 1, alpha);
+		}
 	}
 	
 }

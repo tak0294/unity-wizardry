@@ -33,7 +33,11 @@ public class DungeonController : MonoBehaviour {
 		m_dungeonModel.Initialize();
 		m_dungeonView.Initialize(m_dungeonModel);
 	}
-	
+
+	public DungeonView GetView() {
+		return m_dungeonView;
+	}
+
 	public DungeonModel GetModel()
 	{
 		return m_dungeonModel;
