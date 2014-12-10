@@ -171,6 +171,7 @@
      <Compile Include="Assets\Scripts\CustomUnity\CustomTransform.cs" />
      <Compile Include="Assets\Scripts\Dungeon\AStarPoint.cs" />
      <Compile Include="Assets\Scripts\Dungeon\AStarRouteSearcher.cs" />
+     <Compile Include="Assets\Scripts\Dungeon\Cell.cs" />
      <Compile Include="Assets\Scripts\Dungeon\DungeonController.cs" />
      <Compile Include="Assets\Scripts\Dungeon\DungeonModel.cs" />
      <Compile Include="Assets\Scripts\Dungeon\DungeonView.cs" />

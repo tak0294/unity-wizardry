@@ -132,7 +132,7 @@ public class MainScript : MonoBehaviour {
 			if(distance < 3)	alpha = 0.6f;
 			if(distance < 2)	alpha = 1.0f;
 
-			wallObj.renderer.material.color = new Color (1, 1, 1, alpha);
+			CustomObject.getChild(wallObj,"sprite").renderer.material.color = new Color (1, 1, 1, alpha);
 		}
 	}
 	
